@@ -29,10 +29,8 @@ for axis in ax:
 
 ax[0].plot(N_range,T*1e3)
 ax[0].set_ylabel("Torque [N.m]")
-
 ax[1].plot(N_range,P_out,label="Output")
 ax[1].set_ylabel("Power [W]")
-
 ax[2].plot(N_range,n*100)
 ax[2].set_ylabel("Efficiency [%]")
 

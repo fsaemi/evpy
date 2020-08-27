@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import evpy as ev
 
-
 # load sample motor catalog as reference values
 filename = "scorpion_catalog_2020_07_01.txt"
 catalog = np.loadtxt(filename,skiprows=1,usecols=np.arange(1,16))
