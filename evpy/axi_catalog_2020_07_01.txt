@@ -1,7 +1,0 @@
-Name	m [g]	Dc [mm]	Do [mm]	Lo [mm]	Ds [mm]	Ls [mm]	Imax [A]	Vmin [V]	Kv [rpm/V]	Kt [N.m/A]	I0 [A]	R [O]	Km [N.m/sqrt(O)]	Stator slots [-]	Mag. poles [-]
-Axi	30	nan	87	89.4	81	12	38	nan	215	0.044415333	1.4	0.0329	0.244869657	nan	nan
-Axi	995	nan	63	84.3	53	45	84	nan	225	0.042441318	2.5	0.016	0.335528081	nan	nan
-Axi	515	nan	63	59.2	53	20	55	nan	370	0.02580891	1.3	0.014	0.218125098	nan	nan
-Axi	85	nan	35	39	28	8	15	nan	1820	0.005246866	2	0.022	0.035374365	nan	nan
-Axi	675	nan	87	77.4	81	20	38	nan	140	0.068209261	1.2	0.0466	0.315973302	nan	nan
-Axi	410	nan	49.8	64.4	41	30	40	nan	385	0.024803368	1.2	0.023	0.163548564	nan	nan
