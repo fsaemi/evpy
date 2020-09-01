@@ -124,3 +124,21 @@ def motor_size(T,x,shear=5500):
     km = 616*(Ds**0.88)*(U_stat**0.54) #[N.m/sqrt(Ohms)]
     
     return m_tot,U_tot,Do,Lo,km
+
+def esc_pred(V,d,f_pwm,Ron,Ton,Im,Pm):
+    """
+    predict ESC losses given specs and motor performance
+    """
+    # compute copper losses
+    P_L_co = 2*Ron*Im**2 #[W]
+    P_L_sw = V*Im*f_pwm*Ton #[W]
+    P_dc = Pm + (P_L_co+P_L_sw)/d #[W]
+    n = Pm/P_dc #[-]
+    n[n>1.0] = np.nan
+    n[n<0.0] = np.nan
+    
+    I_dc = P_dc/V #[A]
+    I_dc[I_dc>1.0] = np.nan
+    I_dc[I_dc<0.0] = np.nan
+    
+    return I_dc,P_dc,n
