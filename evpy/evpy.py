@@ -9,6 +9,14 @@ import scipy.integrate
 #### Library functions ###
 ##########################
 
+"""
+    FUTURE FUNCTIONS
+    ----------------
+    0. some load profile (momentum theory rotor?)
+    1. torque/speed/efficiency contour for motor+ESC
+    2. integrated rotor/motor/ESC/battery model with hover-hold throttling
+"""
+
 def motor_pred(w,V,d,Rm,kt,I0):
     """
     predict motor performance for given specs
