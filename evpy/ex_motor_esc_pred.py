@@ -19,7 +19,7 @@ N_range = np.linspace(0,N_max,num=50) #[rpm]
 w_range = N_range*(np.pi/30.0) #[rad/s]
 
 # generate and plot predictions
-T,P_out,I_mot,P_mot,n_mot = ev.motor_pred(w_range,V_batt,d,Rm,kt,I0)
+T,P_out,I_mot,P_mot,n_mot = ev.motor_pred(w_range,V_batt,d,kt,Rm,I0)
 I_dc,P_dc,n_esc = ev.esc_pred(I_mot,P_mot,V_batt,d) 
 n_tot = n_mot*n_esc
 

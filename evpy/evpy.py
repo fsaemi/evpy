@@ -13,11 +13,11 @@ import scipy.integrate
     FUTURE FUNCTIONS
     ----------------
     0. some load profile (momentum theory rotor?)
-    1. torque/speed/efficiency contour for motor+ESC
+    1. torque/speed/efficiency contour for motor+ESC including harmonics
     2. integrated rotor/motor/ESC/battery model with hover-hold throttling
 """
 
-def motor_pred(w,V,d,Rm,kt,I0):
+def motor_pred(w,V,d,kt,Rm,I0):
     """
     predict motor performance for given specs
     
@@ -75,11 +75,67 @@ def motor_pred(w,V,d,Rm,kt,I0):
     
     return T,P_out,I,P_in,n
 
+def motor_contour(N_rated,T_rated,kt,R,I0,num_pts=100):
+    """
+    roughly predict the motor's torque/speed/efficiency contour
+    
+    predicts motor efficiency within the motor's rated operating window 
+    uses 3 high-level component parameters (Rm, kt, I0)
+    applicable to sensorless, six-step commutation brushless DC motors
+    DOES NOT factor in harmonics!
+    
+    Note: kt = kv with SI units
+    
+    INPUTS
+    ------
+    N_rated : float, rev/min
+        rated motor speed
+    T_rated : float, N.m
+        rated motor torque
+    kt : float, Newton-meter per Amp
+        torque constant of motor
+    Rm : float, Ohms
+        motor resistance (phase to phase)
+    I0 : float, Amps
+        no-load current of motor
+    num_pts : int, non-dim
+        number of data points along each axis
+    
+    OUTPUTS
+    -------
+    N : 2D ndarray (float), rev/min
+        a 2D array of the motor's speed up to N_rated
+    T : 2D ndarray (float), Newton-meter
+        a 2D array of the motor's torque up to T_rated
+    n : 2D ndarray (float), non-dim
+        a 2D array of the motor's non-dimensional motor efficiency
+        grid is over the entire torque/speed window
+    """
+    N_vec = np.linspace(0,N_rated,num_pts) #[rpm]
+    T_vec = np.linspace(0,T_rated,num_pts) #[N.m]
+    
+    N,T = np.meshgrid(N_vec+0.001*N_rated,T_vec+0.001*T_rated)
+    w = (np.pi/30.0)*N #[rad/s]
+    
+    E = kt*w #[V]
+    I = T/kt + I0 #[A]
+    
+    # calculate losses
+    P_out = T*w #[W], output power
+    P_co = R*I**2 #[W], copper losses
+    P_ir = E*I0 #[W], iron losses
+    
+    # calculate input power, efficiency
+    P_in = 1.1*P_out + P_co + P_ir #[W], input power
+    n = P_out/P_in #[-], efficiency
+    
+    return N,T,n
+
 def motor_size(T,x,shear=5500.0):
     """
     Size a motor for a given torque, aspect ratio
     
-    Predict the mass, diameter, length, and figure of merit rated for given torque, D/L
+    Predict mass, diameter, length, figure of merit for given torque, D/L
     Default shear stress is for sub-500 gram BLDC motors
         
     INPUTS
