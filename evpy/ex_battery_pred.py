@@ -21,8 +21,8 @@ x = t[V_pred>3.3]*60.0 #[min]
 batt_fig,batt_ax = plt.subplots(1,1)
 batt_ax.plot(x,y)
 batt_ax.set_xlabel("Time [min]")
-batt_ax.set_ylabel("Terminal voltage [V]")
-batt_fig.suptitle("Battery performance of 610 mAh battery at 2C discharge")
+batt_ax.set_title("Cell voltage [V]")
+batt_fig.suptitle("610 mAh battery at 2C discharge")
 batt_ax.grid(True)
 
 plt.show()
