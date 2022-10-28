@@ -1,3 +1,21 @@
+"""
+Example file which demonstrates the following functions:
+    1. size_motor() - predict motor size for desired torque
+    2. wind_motor() - predict electrical constants for desired Vdc & speed
+    
+Data flow:
+    Torque ratings from independent motor catalog
+    ||
+    ||
+    \/
+    size_motor ==> motor mass, figure of merit (motor constant, km)
+    ||
+    ||
+    \/
+    wind_motor ==> motor resistance
+"""
+
+#import libraries
 import numpy as np
 import matplotlib.pyplot as plt
 import evpy as ev
@@ -6,7 +24,7 @@ import evpy as ev
 filename = "scorpion_catalog_2020_07_01.txt"
 catalog = np.loadtxt(filename,skiprows=1,usecols=np.arange(1,16))
 
-# parse geometric data (saved as mm)
+# parse geometric data (saved as grams and mm)
 m = 0.001*catalog[:,0] #mass [kg]
 Ds = 0.001*catalog[:,4] #stator diameter [m]
 Ls = 0.001*catalog[:,5] #stator length [m]
@@ -17,35 +35,40 @@ Imax = catalog[:,6] #max current [A]
 kt = catalog[:,9] #kt [N.m/A]
 R = catalog[:,11] #winding resistance [Ohms]
 km = catalog[:,12] #motor constant [N.m/sqrt(Ohms)]
-T_rated = 0.2*kt*Imax #rated torque [N.m]
+M_rated = 0.2*kt*Imax #rated torque [N.m]
 
-# predict motor size given rated torque and aspect ratio
-m_pred,U_pred,Ds_pred,Ls_pred,km_pred = ev.motor_size(T_rated,x)
+# predict motor mass & km for desired torque
+_,_,_,m_pred,km_pred = ev.size_motor(M_rated,AR=x)
+
+#Catalog doesn't have Vdc and speed ratings, 
+#Instead, I extract an estimated Rm from predicted km and catalog kt
+R_pred = (kt/km_pred)**2.0
+#If I had Vdc and speed ratings, I would feed that in as such:
+#kt_pred,R_pred = (km_pred,Vdc,w_nom,nom_throt=0.5)
 
 # prepare figure
-fig, ax = plt.subplots(1,2)
+fig, ax = plt.subplots(1,2,sharex=True)
 for axis in ax:
     axis.grid(True)
     axis.set_xlabel(r'Torque [mN$\cdot$m]')
  
-# prepare data for plotting
-x_data = T_rated*1e3 #[mN.m]
-y1_data = m*1e3 #[g]
-y1_pred = m_pred*1e3 #[g]
-y2_data = km*1e3 #[g]
-y2_pred = km_pred*1e3 #[g]
-
-# make first subplot
-ax[0].plot(x_data,y1_data,'xr',markersize=10,mfc='none',label='Actual')
-ax[0].plot(x_data,y1_pred,'.b',markersize=10,label='Prediction')
-ax[0].set_ylabel('Mass [g]')
-ax[0].legend()
+# plot mass predictions
+ax[0].plot(M_rated*1e3,m*1E3,'.',markersize=10,label='Catalog')
+ax[0].plot(M_rated*1e3,m_pred*1E3,
+           'x',markeredgewidth=2,markersize=10,label='Model')
+ax[0].set_title('Mass [g]')
 
 # make second subplot
-ax[1].plot(x_data,y2_data,'xr',markersize=10,label="Spec")
-ax[1].plot(x_data,y2_pred,'.b',markersize=10,label="Prediction")
-ax[1].set_ylabel(r"$k_m$ [mN$\cdot$m/√Ω]")
+ax[1].plot(M_rated*1E3,R*1E3,'.',markersize=10,label="Catalog")
+ax[1].plot(M_rated*1E3,R_pred*1E3,
+           'x',markeredgewidth=2,markersize=10,label='Model')
+ax[1].set_title(r"$R_m$ [$\Omega$]")
 
 # show plots
+for axis in ax:
+    axis.set_xlabel('Rated torque [mN.m]')
+    axis.legend()
+    axis.grid(True)
+
 plt.tight_layout()
 plt.show()
