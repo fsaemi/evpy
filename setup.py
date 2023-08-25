@@ -29,7 +29,7 @@ setup( # PLACEHOLDER INFORMATION - DISREGARD UNTIL FIXED
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
-	url="https://github.com/fsaemi/evpy"
+    url="https://github.com/fsaemi/evpy",
     packages=find_packages(),
     install_requires=['matplotlib', 'numpy', 'scipy'],
     keywords=['python'],
