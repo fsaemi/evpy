@@ -18,8 +18,6 @@ def throttle_calc(w,kt,Vdc):
     d = w*kt/Vdc
 
     return d
-    
-    print("bob1")
 
 def mot_eff(w,M,d,Vdc,kt,Rm,I0):
     """
@@ -59,8 +57,6 @@ def mot_eff(w,M,d,Vdc,kt,Rm,I0):
     Iac = Pac/E #[A] actual current draw
 
     return Iac,Pac,n_mot,Qmot
-    
-    print("Bob2")
 
 def ctrl_eff(Iac,Pac,d,Vdc,f_pwm=12E3,Rds_on=1E-3,T_trans=1E-6,P_qui=0.25):
     """
@@ -99,5 +95,3 @@ def ctrl_eff(Iac,Pac,d,Vdc,f_pwm=12E3,Rds_on=1E-3,T_trans=1E-6,P_qui=0.25):
     Idc = Pdc/Vdc #[A] actual current draw
 
     return Idc, Pdc, n_ctrl, Qctrl
-    
-    print("Bob3")
