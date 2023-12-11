@@ -9,7 +9,6 @@ results show how drawing more current from battery increases internal losses
 import numpy as np
 import evpy as ev
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mtick
 
 #%% SET BATTERY SPECS
 Q_ampHr = 2.0 #battery capacity [A.hr]
