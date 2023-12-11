@@ -12,6 +12,7 @@ I welcome your feedback!
   - Generic lithium-polymer ("Lipo") battery.
 
 ## TO-be posted:
+- **Documentation** for example files
 - **theory manual** for the efficiency models (my open-source journal paper deriving the efficiency models)
 - **Thermal models + theory manual** = predict convective heat transfer coefficient for outrunner BLDC motor.
 - **Sizing models + theory manual** = predict optimal size and electrical constants for outrunner BLDC motor.
