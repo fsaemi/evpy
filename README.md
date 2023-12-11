@@ -12,3 +12,7 @@ TO-BE POSTED:
 Theory manual for efficiency models (open-source journal paper explaining efficiency models)
 Thermal models + theory manual = predict convective heat transfer coefficient for outrunner BLDC motor.
 Sizing models + theory manual = predict optimal size and electrical constants for outrunner BLDC motor.
+
+SALIENT FILES:
+evpy.py = model definitions
+ex_mot_ctrl_eff.py = example file for using motor and controller efficiency function.
