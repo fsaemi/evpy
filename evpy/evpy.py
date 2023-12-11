@@ -2,6 +2,8 @@
 NOTE: All model inputs are SI units like [rad/s] rather than [rev/min]s (RPM)
 """
 
+import numpy as np
+
 def throttle_calc(w,kt,Vdc):
     """
     INPUTS
@@ -95,3 +97,8 @@ def ctrl_eff(Iac,Pac,d,Vdc,f_pwm=12E3,Rds_on=1E-3,T_trans=1E-6,P_qui=0.25):
     Idc = Pdc/Vdc #[A] actual current draw
 
     return Idc, Pdc, n_ctrl, Qctrl
+
+def soc_volts(soc):
+    Vsoc = (-1.031*np.exp(-35*soc) + 3.685 +
+             0.2156*soc - 0.1178*soc**2 + 0.3201*soc**3) #[V]
+    return Vsoc
