@@ -20,4 +20,4 @@ I welcome your feedback!
 - **evpy.py** = all the models/code
 - **ex_mot_ctrl_eff.py** = example file for using motor and controller efficiency function.
 - **ex_batt_mdl.py** = example file for using the battery efficiency function.
-- **ex_intg_mdl.py** = example file for a combined motor+ctrl+battery model. Uses experimental flight data.
+- **ex_intg_mdl.py** = example file for an integrated motor+ctrl+battery model. Uses experimental flight data.
