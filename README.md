@@ -9,5 +9,6 @@ POSTED models:
 Efficiency models = predict losses for a brushless DC (BLDC) motor, motor controller (also known as electronic speed controller or ESC), and a generic lithium-polymer ("Lipo") battery.
 
 TO-BE POSTED:
-Thermal models = predict convective heat transfer coefficient for outrunner BLDC motor.
-Sizing = predict optimal size and electrical constants for outrunner BLDC motor.
+Theory manual for efficiency models (open-source journal paper explaining efficiency models)
+Thermal models + theory manual = predict convective heat transfer coefficient for outrunner BLDC motor.
+Sizing models + theory manual = predict optimal size and electrical constants for outrunner BLDC motor.
