@@ -1,19 +1,25 @@
+"""
+NOTE: All model inputs are SI units like [rad/s] rather than [rev/min]s (RPM)
+"""
+
 def throttle_calc(w,kt,Vdc):
     """
     INPUTS
     -----
     w : desired speed [rad/s]
-    kt : motor torque constant
+    kt : motor torque constant [N.m/A]
     Vdc = DC voltage [V]
 
     OUTPUT
     -----
-    d = throttle setting
+    d = non-dimensional throttle setting [-] also known as duty ratio
     """
 
     d = w*kt/Vdc
 
     return d
+    
+    print("bob1")
 
 def mot_eff(w,M,d,Vdc,kt,Rm,I0):
     """
@@ -21,18 +27,18 @@ def mot_eff(w,M,d,Vdc,kt,Rm,I0):
     -----
     w : desired speed [rad/s]
     M : desired torque [N*m]
-    d : throttle setting
+    d : throttle setting [-]
     Vdc : DC voltage [V]
-    kt : motor torque constant
+    kt : motor torque constant [N.m/A]
     Rm : stator winding resistance [Ω]
     I0 : no-load current [A]
 
     OUTPUTS
     -----
-    Iac : actual current draw [A]
-    Pac : power consumption by motor [W]
-    n_mot : motor efficiency
-    Qmot: total losses of motor [W]
+    Iac : actual motor current draw [A]
+    Pac : actual power consumption by motor [W]
+    n_mot : non-dimensional motor efficiency [-]
+    Qmot: total motor losses [W]
     """
 
     #derive internal parms
@@ -52,7 +58,9 @@ def mot_eff(w,M,d,Vdc,kt,Rm,I0):
     n_mot = Pmech/Pac # motor efficiency
     Iac = Pac/E #[A] actual current draw
 
-    return Iac, Pac, n_mot, Qmot
+    return Iac,Pac,n_mot,Qmot
+    
+    print("Bob2")
 
 def ctrl_eff(Iac,Pac,d,Vdc,f_pwm=12E3,Rds_on=1E-3,T_trans=1E-6,P_qui=0.25):
     """
@@ -63,15 +71,19 @@ def ctrl_eff(Iac,Pac,d,Vdc,f_pwm=12E3,Rds_on=1E-3,T_trans=1E-6,P_qui=0.25):
     d : throttle setting
     Vdc : DC voltage [V]
     f_pwm : switching frequency of ESC [Hz]
+        default for most controllers ~ 12 kHz. User can change 8-32 kHz
     Rds_on : ESC resistance [Ω]
-    T_trans : transition period of MOSFETs
+        Jeti lists ~ 1 miliOhm for its opto-line of ESCs. Could not find any other public specs.
+    T_trans : transition period of MOSFETs in controller
+        On the order of ~1 microsecond for off the shelf MOSFET from Sparkfun 
     P_qui : quiescent losses
+        Varies for each controller. We measured ~0.25 W in our tests.
 
     OUTPUTS
     -----
     Idc : actual current draw [A]
     Pdc : power consumption by ESC [W]
-    n_ctrl: efficiency of ESC
+    n_ctrl: non-dimensional efficiency of ESC
     Q_ctrl: total losses of ESC [W]
     """
 
@@ -82,8 +94,10 @@ def ctrl_eff(Iac,Pac,d,Vdc,f_pwm=12E3,Rds_on=1E-3,T_trans=1E-6,P_qui=0.25):
     Qctrl = P_qui + Qharm #[W] losses including harmonic distortion
 
     #calculate efficiency, DC power, DC current draw
-    Pdc = Pac + Qesc #[W] elec power consumed by ESC
+    Pdc = Pac + Qctrl #[W] elec power consumed by ESC
     n_ctrl = Pac/Pdc # ESC efficiency
     Idc = Pdc/Vdc #[A] actual current draw
 
     return Idc, Pdc, n_ctrl, Qctrl
+    
+    print("Bob3")
