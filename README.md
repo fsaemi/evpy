@@ -1,7 +1,7 @@
 # evpy
  Efficiency, thermal, and sizing models for brushless DC motor powertrains used in drones and robots.
 
-This are models I've developed over the past few years of graduate research at Texas A&M University. I want them to see the light of day rather sit unread in a journal paper.
+This are models I've developed over the past few years of graduate research at Texas A&M University. I'm slowly sharing them here so they see the light of day rather than sit unread in a journal paper.
 
 I welcome your feedback!
 
