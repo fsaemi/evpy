@@ -54,7 +54,7 @@ w_rated = Nrated*RPM2RADS
 w_grid,M_grid = np.meshgrid(w_vec+w_rated/1000,Mvec+Mrated/1000);
 
 #get throttle settings for each point
-d_grid = ev.throttle_calc(w_grid, kt, Vdc)
+d_grid = ev.throttle_calc(w_grid, Vdc, kt)
 
 #predict efficiency at each grid point
 #return only the third output (efficiency)

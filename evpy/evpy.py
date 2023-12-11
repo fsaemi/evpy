@@ -4,7 +4,7 @@ NOTE: All model inputs are SI units like [rad/s] rather than [rev/min]s (RPM)
 
 import numpy as np
 
-def throttle_calc(w,kt,Vdc):
+def throttle_calc(w,Vdc,kt):
     """
     INPUTS
     -----
